@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="stilark.css">
+</head>
+<body>
+
+<div>
+<input type="text" id="tekstfelt" maxlength="1">
+<button type="button" id="knapp">Gjett </button>
+<p id="melding1"></p>
+<p id="melding2"></p>
+
+<p id="losningTekst"></p>
+<p id="bar1" class="green"></p>
+<p id="bar2" class="green"></p>
+<p id="bar3" class="green"></p>
+<p id="bar4" class="green"></p>
+<p id="bar5" class="green"></p>
+</div>
+</body>
+</html>
+
+<script>
+
+let losning = ["B", "E", "R", "G", "E", "N"];
+let gjettedeBokstaver = [];
+let riktige = [];
+let feil = 0;
+let knappEL = document.querySelector("#knapp");
+knappEL.addEventListener("click", tekstfeltVerdi);
+knappEL.addEventListener("click", sjekkGjettede);
+knappEL.addEventListener("click", endreBar);
+
+
+let bokstav;
+
+
+function tekstfeltVerdi () {
+    bokstav = document.getElementById("tekstfelt").value;
+    bokstav = bokstav.toUpperCase();
+}
+
+function antall () {
+    for (let a = 0; a <losning.length; a++) {
+        riktige.push("_");
+        document.getElementById("tekstfelt").innerText = riktige.join(" ");
+        document.getElementById("losningTekst").innerText = riktige.join(" ");
+        document.getElementById("melding1").innerText = "Du har gjettet " + gjettedeBokstaver.length + " bokstaver: " + gjettedeBokstaver.join(" ");
+        document.getElementById("melding2").innerText = "Antall bokstaver i løsningsordet er: " + losning.length;
+    }
+}
+antall();
+
+
+function sjekkGjettede () {
+    for (let i = 0; i < losning.length; i++) {
+        if (losning[i] === bokstav)
+            riktige[i] = bokstav;
+
+        };
+        let sjekkFeil = losning.includes(bokstav);
+        if (sjekkFeil == false) {
+            feil++;
+        }
+        document.getElementById("losningTekst").innerText = riktige.join(" ");
+
+        gjettedeBokstaver.push(bokstav);
+        console.log(gjettedeBokstaver);
+        gjettedeBokstaver.sort(function (a, b) {
+        if (a > b) {
+            return 1;
+        }
+        if (b > a) {
+            return -1;
+        }
+        return 0;
+    });
+         if(gjettedeBokstaver.length === 1) {
+             document.getElementById("melding1").innerText = "Du har gjettet " + gjettedeBokstaver.length + " bokstav: " + gjettedeBokstaver.join(" ");
+         } else {
+             document.getElementById("melding1").innerText = "Du har gjettet " + gjettedeBokstaver.length + " bokstaver: " + gjettedeBokstaver.join(" ");
+         }
+
+    };
+
+
+function endreBar () {
+    if (feil === 1) {
+        document.getElementById("bar1").classList.add("red");
+    } else if (feil === 2) {
+        document.getElementById("bar2").classList.add("red");
+    } else if (feil === 3) {
+        document.getElementById("bar3").classList.add("red");
+    } else if (feil === 4) {
+        document.getElementById("bar4").classList.add("red");
+    } else if (feil === 5) {
+        document.getElementById("bar5").classList.add("red");
+        alert("Du tapte! :(");
+    };
+
+let losningOrd = losning.join("");
+let riktigeBokstaver = riktige.join("");
+
+if(losningOrd === riktigeBokstaver) {
+    alert("Du vant! :)");
+}
+};
+
+</script>
